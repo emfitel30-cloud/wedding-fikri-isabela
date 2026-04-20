@@ -546,6 +546,237 @@
     letter-spacing: 0.1em;
   }
 
+  /* ========== PHOTOBOOTH ========== */
+  .pb-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .pb-viewfinder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    background: #0a0a06;
+    border: 0.5px solid rgba(201,168,76,0.3);
+  }
+
+  .pb-viewfinder video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #pb-overlay-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .pb-corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold);
+    border-style: solid;
+    z-index: 3;
+  }
+  .pb-corner.tl { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+  .pb-corner.tr { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+  .pb-corner.bl { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+  .pb-corner.br { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+  .pb-filter-label {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    background: rgba(10,10,6,0.7);
+    padding: 0.3rem 0.8rem;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+  }
+
+  .pb-countdown-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem;
+    font-weight: 300;
+    color: var(--cream);
+    text-shadow: 0 0 30px rgba(201,168,76,0.6);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .pb-flash {
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.08s ease;
+  }
+  .pb-flash.active { opacity: 0.9; }
+
+  .pb-start-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,10,6,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+    backdrop-filter: blur(4px);
+  }
+
+  .pb-start-btn {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .pb-start-btn:hover { background: rgba(201,168,76,0.1); }
+
+  .pb-filters, .pb-frames {
+    width: 100%;
+  }
+
+  .pb-filter-scroll {
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201,168,76,0.3) transparent;
+  }
+
+  .pb-filter-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .pb-filter-preview {
+    display: block;
+    width: 48px; height: 48px;
+    border: 1.5px solid rgba(201,168,76,0.2);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .pb-filter-btn.active .pb-filter-preview {
+    border-color: var(--gold);
+    transform: scale(1.08);
+  }
+
+  .pb-filter-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: var(--sage-light);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .pb-filter-btn.active .pb-filter-name { color: var(--gold); }
+
+  .pb-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .pb-shutter {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .pb-shutter:hover { background: rgba(201,168,76,0.1); transform: scale(1.05); }
+  .pb-shutter:active { transform: scale(0.95); }
+
+  .pb-shutter-inner {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .pb-shutter:hover .pb-shutter-inner { opacity: 1; }
+
+  .pb-result { width: 100%; text-align: center; }
+  .pb-result canvas {
+    width: 100%;
+    height: auto;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    display: block;
+  }
+
+  .pb-result-btns {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .pb-result-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 0.5px solid;
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .pb-result-btn.download {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .pb-result-btn.download:hover { background: rgba(201,168,76,0.1); }
+
+  .pb-result-btn.retake {
+    color: var(--sage-light);
+    border-color: rgba(195,204,155,0.4);
+  }
+  .pb-result-btn.retake:hover { background: rgba(195,204,155,0.05); }
+
   /* ========== RSVP ========== */
   #rsvp {
     background: radial-gradient(ellipse at 50% 50%, #1a1e10 0%, var(--dark) 65%);
@@ -1350,6 +1581,145 @@
   </div>
 </section>
 
+<!-- ====== PHOTOBOOTH ====== -->
+<section id="photobooth" style="background:radial-gradient(ellipse at 50% 30%,#1a2212 0%,var(--dark) 70%);min-height:auto;padding:5rem 1.5rem">
+  <p class="section-label reveal">Kenangan Bersama</p>
+  <h2 class="section-title reveal">Abadikan Momenmu</h2>
+  <p style="font-size:0.82rem;color:var(--sage-light);max-width:440px;text-align:center;line-height:1.9;margin-bottom:2.5rem;opacity:0;transition:all 1s ease 0.3s" class="reveal">
+    Pilih filter, ambil foto, dan simpan kenangan indah<br>dari hari istimewa Fikri & Isabela.
+  </p>
+
+  <div class="pb-wrapper reveal">
+
+    <!-- Camera Viewfinder -->
+    <div class="pb-viewfinder" id="pb-viewfinder">
+      <video id="pb-video" autoplay playsinline muted></video>
+      <canvas id="pb-overlay-canvas"></canvas>
+
+      <!-- Corner decorations -->
+      <div class="pb-corner tl"></div>
+      <div class="pb-corner tr"></div>
+      <div class="pb-corner bl"></div>
+      <div class="pb-corner br"></div>
+
+      <!-- Filter label -->
+      <div class="pb-filter-label" id="pb-filter-label">No Filter</div>
+
+      <!-- Countdown overlay -->
+      <div class="pb-countdown-overlay" id="pb-countdown-overlay"></div>
+
+      <!-- Flash overlay -->
+      <div class="pb-flash" id="pb-flash"></div>
+
+      <!-- Start screen -->
+      <div class="pb-start-screen" id="pb-start-screen">
+        <div style="text-align:center">
+          <div style="width:64px;height:64px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--gold)">
+              <path d="M12 15.2A3.2 3.2 0 0 1 8.8 12 3.2 3.2 0 0 1 12 8.8 3.2 3.2 0 0 1 15.2 12 3.2 3.2 0 0 1 12 15.2M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+            </svg>
+          </div>
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--cream);margin-bottom:0.4rem">Izinkan akses kamera</p>
+          <p style="font-size:0.72rem;color:var(--sage-light);margin-bottom:1.5rem">untuk mulai berfoto</p>
+          <button class="pb-start-btn" onclick="startCamera()">Buka Kamera</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter selector -->
+    <div class="pb-filters" id="pb-filters" style="display:none">
+      <p style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:0.85rem;text-align:center">Pilih Filter</p>
+      <div class="pb-filter-scroll">
+        <button class="pb-filter-btn active" onclick="setFilter(this,'none','No Filter')">
+          <span class="pb-filter-preview" style="background:#555"></span>
+          <span class="pb-filter-name">Original</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'vintage','Vintage')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#c8a96a,#8b5e3c)"></span>
+          <span class="pb-filter-name">Vintage</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'dreamy','Dreamy')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#d4b8e0,#a8d8c8)"></span>
+          <span class="pb-filter-name">Dreamy</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'golden','Golden Hour')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#f5c842,#e88a2e)"></span>
+          <span class="pb-filter-name">Golden</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'bw','B&W')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#eee,#555)"></span>
+          <span class="pb-filter-name">B&amp;W</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'bloom','Bloom')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#f9d7e3,#c8e6c9)"></span>
+          <span class="pb-filter-name">Bloom</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'forest','Forest')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#4a7c4e,#a8c8a0)"></span>
+          <span class="pb-filter-name">Forest</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFilter(this,'dusk','Dusk')">
+          <span class="pb-filter-preview" style="background:linear-gradient(135deg,#2d1b4e,#c9784e)"></span>
+          <span class="pb-filter-name">Dusk</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Frame selector -->
+    <div class="pb-frames" id="pb-frames" style="display:none">
+      <p style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:0.85rem;text-align:center">Pilih Frame</p>
+      <div class="pb-filter-scroll">
+        <button class="pb-filter-btn active" onclick="setFrame(this,'none')">
+          <span class="pb-filter-preview" style="border:2px dashed rgba(255,255,255,0.3)"></span>
+          <span class="pb-filter-name">Polos</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFrame(this,'elegant')">
+          <span class="pb-filter-preview" style="border:2px solid #C9A84C;position:relative">
+            <span style="position:absolute;top:1px;left:1px;right:1px;bottom:1px;border:1px solid rgba(201,168,76,0.4)"></span>
+          </span>
+          <span class="pb-filter-name">Elegant</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFrame(this,'floral')">
+          <span class="pb-filter-preview" style="background:radial-gradient(circle,transparent 55%,rgba(154,177,122,0.5) 100%)"></span>
+          <span class="pb-filter-name">Floral</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFrame(this,'starry')">
+          <span class="pb-filter-preview" style="background:#1a1a14;background-image:radial-gradient(white 1px,transparent 1px);background-size:8px 8px"></span>
+          <span class="pb-filter-name">Starry</span>
+        </button>
+        <button class="pb-filter-btn" onclick="setFrame(this,'arch')">
+          <span class="pb-filter-preview" style="background:linear-gradient(to bottom,#C9A84C 30%,transparent 30%)"></span>
+          <span class="pb-filter-name">Arch</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Shutter & actions -->
+    <div class="pb-actions" id="pb-actions" style="display:none">
+      <button class="pb-shutter" onclick="shootPhoto()" id="pb-shutter-btn" title="Ambil Foto">
+        <div class="pb-shutter-inner"></div>
+      </button>
+      <p style="font-size:0.65rem;color:var(--sage);letter-spacing:0.15em;text-align:center;margin-top:0.5rem">Klik untuk berfoto (3 detik)</p>
+    </div>
+
+    <!-- Result -->
+    <div class="pb-result" id="pb-result" style="display:none">
+      <canvas id="pb-result-canvas"></canvas>
+      <div class="pb-result-btns">
+        <button class="pb-result-btn download" onclick="downloadPhoto()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v-2H5v2zm7-18v12l-4-4-1.41 1.41L12 17.83l5.41-5.42L16 11l-4 4V2h-2z"/></svg>
+          Simpan Foto
+        </button>
+        <button class="pb-result-btn retake" onclick="retakePhoto()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          Foto Ulang
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ====== RSVP ====== -->
 <section id="rsvp">
   <p class="section-label reveal">Konfirmasi Kehadiran</p>
@@ -1620,7 +1990,259 @@ function copyText(elId, btnId) {
 }
 
 
-// ====== RSVP ======
+// ====== PHOTOBOOTH ======
+let pbStream = null;
+let pbCurrentFilter = 'none';
+let pbCurrentFrame = 'none';
+let pbFilterLabel = 'No Filter';
+let pbShooting = false;
+
+const filters = {
+  none:    { css: 'none', label: 'No Filter' },
+  vintage: { css: 'sepia(0.55) contrast(1.1) brightness(0.92) saturate(0.8)', label: 'Vintage' },
+  dreamy:  { css: 'brightness(1.1) contrast(0.9) saturate(1.2) hue-rotate(15deg)', label: 'Dreamy' },
+  golden:  { css: 'sepia(0.3) saturate(1.4) brightness(1.08) contrast(1.05)', label: 'Golden Hour' },
+  bw:      { css: 'grayscale(1) contrast(1.1) brightness(0.95)', label: 'B&W' },
+  bloom:   { css: 'brightness(1.15) contrast(0.88) saturate(1.3) blur(0px)', label: 'Bloom' },
+  forest:  { css: 'saturate(1.5) hue-rotate(-15deg) brightness(0.95) contrast(1.05)', label: 'Forest' },
+  dusk:    { css: 'sepia(0.2) hue-rotate(270deg) saturate(1.3) brightness(0.88) contrast(1.1)', label: 'Dusk' }
+};
+
+async function startCamera() {
+  try {
+    pbStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+    const video = document.getElementById('pb-video');
+    video.srcObject = pbStream;
+    video.onloadedmetadata = () => {
+      resizePbOverlay();
+      document.getElementById('pb-start-screen').style.display = 'none';
+      document.getElementById('pb-filters').style.display = 'block';
+      document.getElementById('pb-frames').style.display = 'block';
+      document.getElementById('pb-actions').style.display = 'flex';
+      applyVideoFilter();
+    };
+  } catch(e) {
+    alert('Tidak dapat mengakses kamera. Pastikan izin kamera sudah diberikan di browser Anda.');
+  }
+}
+
+function resizePbOverlay() {
+  const vf = document.getElementById('pb-viewfinder');
+  const oc = document.getElementById('pb-overlay-canvas');
+  oc.width = vf.offsetWidth;
+  oc.height = vf.offsetHeight;
+  drawFrameOverlay(oc);
+}
+
+function applyVideoFilter() {
+  const video = document.getElementById('pb-video');
+  video.style.filter = filters[pbCurrentFilter].css;
+}
+
+function setFilter(btn, key, label) {
+  document.querySelectorAll('#pb-filters .pb-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  pbCurrentFilter = key;
+  pbFilterLabel = label;
+  document.getElementById('pb-filter-label').textContent = label;
+  applyVideoFilter();
+}
+
+function setFrame(btn, key) {
+  document.querySelectorAll('#pb-frames .pb-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  pbCurrentFrame = key;
+  const oc = document.getElementById('pb-overlay-canvas');
+  drawFrameOverlay(oc);
+}
+
+function drawFrameOverlay(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  if (pbCurrentFrame === 'none') return;
+
+  if (pbCurrentFrame === 'elegant') {
+    ctx.strokeStyle = 'rgba(201,168,76,0.85)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(14, 14, w - 28, h - 28);
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = 'rgba(201,168,76,0.45)';
+    ctx.strokeRect(22, 22, w - 44, h - 44);
+    const sz = 18;
+    const corners = [[14,14],[w-14,14],[14,h-14],[w-14,h-14]];
+    corners.forEach(([cx,cy]) => {
+      ctx.beginPath(); ctx.arc(cx,cy,3,0,Math.PI*2);
+      ctx.fillStyle='rgba(201,168,76,0.9)'; ctx.fill();
+    });
+    ctx.font = 'italic 13px "Cormorant Garamond", serif';
+    ctx.fillStyle = 'rgba(201,168,76,0.8)';
+    ctx.textAlign = 'center';
+    ctx.fillText('Fikri & Isabela', w/2, h - 6);
+  }
+
+  if (pbCurrentFrame === 'floral') {
+    const drawLeaf = (x, y, r, rot, color, alpha) => {
+      ctx.save(); ctx.translate(x,y); ctx.rotate(rot);
+      ctx.beginPath();
+      ctx.ellipse(0, -r/2, r*0.35, r*0.65, 0, 0, Math.PI*2);
+      ctx.fillStyle = color.replace(')',`,${alpha})`).replace('rgb','rgba');
+      ctx.fill(); ctx.restore();
+    };
+    const drawFlower = (x, y, r, alpha) => {
+      for(let i=0;i<6;i++){
+        const angle = (i/6)*Math.PI*2;
+        ctx.beginPath();
+        ctx.ellipse(x+Math.cos(angle)*r*0.6, y+Math.sin(angle)*r*0.6, r*0.4, r*0.6, angle, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(251,232,206,${alpha*0.7})`;
+        ctx.fill();
+      }
+      ctx.beginPath(); ctx.arc(x,y,r*0.4,0,Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${alpha})`; ctx.fill();
+    };
+    const lc = 'rgb(154,177,122)', lc2 = 'rgb(195,204,155)';
+    [[0,0,1.8],[w,0,-0.3],[0,h,0.9],[w,h,-2.2]].forEach(([x,y,rot],i)=>{
+      for(let j=0;j<5;j++){
+        drawLeaf(x+(i%2?-1:1)*j*12, y+(i>1?-1:1)*j*9, 22-j*2, rot+j*0.25, lc, 0.75);
+        drawLeaf(x+(i%2?-1:1)*j*8, y+(i>1?-1:1)*j*14, 18-j*2, rot-j*0.3, lc2, 0.6);
+      }
+      drawFlower(x+(i%2?-25:25), y+(i>1?-25:25), 14, 0.85);
+    });
+    ctx.font = 'italic 11px "Cormorant Garamond",serif';
+    ctx.fillStyle = 'rgba(201,168,76,0.75)'; ctx.textAlign = 'center';
+    ctx.fillText('✦ Fikri & Isabela ✦', w/2, h-8);
+  }
+
+  if (pbCurrentFrame === 'starry') {
+    for(let i=0;i<80;i++){
+      let sx, sy;
+      if(Math.random()<0.5){ sx=Math.random()*w; sy=Math.random()<0.5?Math.random()*30:h-Math.random()*30; }
+      else { sy=Math.random()*h; sx=Math.random()<0.5?Math.random()*30:w-Math.random()*30; }
+      const sr = Math.random()*1.5+0.3;
+      ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2);
+      ctx.fillStyle = Math.random()<0.2 ? `rgba(201,168,76,${Math.random()*0.8+0.2})` : `rgba(228,223,181,${Math.random()*0.7+0.2})`;
+      ctx.fill();
+    }
+    ctx.font = 'italic 12px "Cormorant Garamond",serif';
+    ctx.fillStyle='rgba(201,168,76,0.85)'; ctx.textAlign='center';
+    ctx.fillText('✦ Fikri & Isabela ✦', w/2, h-8);
+  }
+
+  if (pbCurrentFrame === 'arch') {
+    const ah = h * 0.38;
+    ctx.save();
+    const grad = ctx.createLinearGradient(0, 0, w, ah*0.7);
+    grad.addColorStop(0, 'rgba(26,34,16,0.72)');
+    grad.addColorStop(1, 'rgba(26,34,16,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(0, 0); ctx.lineTo(w, 0); ctx.lineTo(w, ah*0.7);
+    ctx.quadraticCurveTo(w/2, ah*1.1, 0, ah*0.7);
+    ctx.closePath(); ctx.fill(); ctx.restore();
+
+    ctx.strokeStyle='rgba(201,168,76,0.7)'; ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(0, ah*0.7);
+    ctx.quadraticCurveTo(w/2, ah*1.1, w, ah*0.7);
+    ctx.stroke();
+
+    ctx.font='italic 11px "Cormorant Garamond",serif';
+    ctx.fillStyle='rgba(251,232,206,0.9)'; ctx.textAlign='center';
+    ctx.fillText('Fikri & Isabela', w/2, ah*0.35);
+    ctx.font='10px "Cinzel",serif';
+    ctx.fillStyle='rgba(201,168,76,0.8)';
+    ctx.fillText('12 · 07 · 2025', w/2, ah*0.35+18);
+
+    ctx.strokeStyle='rgba(201,168,76,0.5)'; ctx.lineWidth=0.8;
+    ctx.strokeRect(10, h-30, w-20, 20);
+    ctx.font='9px "Cinzel",serif'; ctx.fillStyle='rgba(201,168,76,0.7)';
+    ctx.fillText('A BLESSED UNION', w/2, h-16);
+  }
+}
+
+function shootPhoto() {
+  if(pbShooting) return;
+  pbShooting = true;
+  const btn = document.getElementById('pb-shutter-btn');
+  btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none';
+  const overlay = document.getElementById('pb-countdown-overlay');
+  let count = 3;
+  overlay.style.opacity = '1';
+  overlay.textContent = count;
+
+  const tick = setInterval(() => {
+    count--;
+    if(count > 0) {
+      overlay.textContent = count;
+    } else {
+      clearInterval(tick);
+      overlay.style.opacity = '0';
+      captureFrame();
+      btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
+      pbShooting = false;
+    }
+  }, 1000);
+}
+
+function captureFrame() {
+  const flash = document.getElementById('pb-flash');
+  flash.classList.add('active');
+  setTimeout(() => flash.classList.remove('active'), 200);
+
+  const video = document.getElementById('pb-video');
+  const oc = document.getElementById('pb-overlay-canvas');
+  const rc = document.getElementById('pb-result-canvas');
+  const W = video.videoWidth || oc.width;
+  const H = video.videoHeight || oc.height;
+  rc.width = W; rc.height = H;
+  const rctx = rc.getContext('2d');
+
+  rctx.filter = filters[pbCurrentFilter].css;
+  rctx.drawImage(video, 0, 0, W, H);
+  rctx.filter = 'none';
+
+  const tmpOC = document.createElement('canvas');
+  tmpOC.width = W; tmpOC.height = H;
+  const tmpCtx = tmpOC.getContext('2d');
+  drawFrameOverlayToCtx(tmpCtx, W, H);
+  rctx.drawImage(tmpOC, 0, 0, W, H);
+
+  document.getElementById('pb-viewfinder').style.display = 'none';
+  document.getElementById('pb-filters').style.display = 'none';
+  document.getElementById('pb-frames').style.display = 'none';
+  document.getElementById('pb-actions').style.display = 'none';
+  document.getElementById('pb-result').style.display = 'block';
+}
+
+function drawFrameOverlayToCtx(ctx, w, h) {
+  if (pbCurrentFrame === 'none') return;
+  const tmpCanvas = document.createElement('canvas');
+  tmpCanvas.width = w; tmpCanvas.height = h;
+  drawFrameOverlay(tmpCanvas);
+  ctx.drawImage(tmpCanvas, 0, 0);
+}
+
+function downloadPhoto() {
+  const rc = document.getElementById('pb-result-canvas');
+  const link = document.createElement('a');
+  const ts = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+  link.download = `fikri-isabela-photobooth-${ts}.jpg`;
+  link.href = rc.toDataURL('image/jpeg', 0.92);
+  link.click();
+}
+
+function retakePhoto() {
+  document.getElementById('pb-viewfinder').style.display = 'block';
+  document.getElementById('pb-filters').style.display = 'block';
+  document.getElementById('pb-frames').style.display = 'block';
+  document.getElementById('pb-actions').style.display = 'flex';
+  document.getElementById('pb-result').style.display = 'none';
+}
+
+window.addEventListener('resize', () => {
+  if(pbStream) resizePbOverlay();
+});
+
 let attendChoice = 'hadir';
 
 function selectAttend(btn, val) {
